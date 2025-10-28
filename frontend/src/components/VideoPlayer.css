@@ -1,0 +1,33 @@
+.video-player-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.video-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.player-info {
+  padding: 20px;
+}
+
+.player-info h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.player-info p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+

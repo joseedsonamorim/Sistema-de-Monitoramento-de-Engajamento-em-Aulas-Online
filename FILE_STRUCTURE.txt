@@ -1,0 +1,114 @@
+📁 Monitoramento de Engajamento em Aulas Online/
+
+📄 README.md                    - Documentação principal do projeto
+📄 QUICKSTART.md                - Guia rápido de instalação
+📄 ARCHITECTURE.md              - Arquitetura detalhada do sistema
+📄 PROJECT_SUMMARY.md           - Resumo completo do projeto
+📄 FILE_STRUCTURE.txt           - Este arquivo (estrutura de pastas)
+📄 requirements.txt             - Dependências Python
+📄 .gitignore                   - Arquivos ignorados pelo Git
+📄 setup.sh                     - Script de configuração
+📄 run.sh                       - Script de execução
+
+📂 backend/
+  📄 __init__.py                - Inicialização do pacote Python
+  📄 main.py                    - API FastAPI principal
+  📄 database.py                - Configuração SQLAlchemy e banco de dados
+  📄 models.py                  - Modelos do banco (Aluno, Aula, Métricas)
+  📄 init_db.py                 - Script de inicialização com dados de exemplo
+
+📂 frontend/
+  📄 package.json               - Dependências Node.js e scripts
+  📄 README.md                  - Documentação do frontend
+  
+  📂 public/
+    📄 index.html               - HTML principal com links MediaPipe CDN
+  
+  📂 src/
+    📄 index.js                 - Entry point React
+    📄 index.css                - Estilos globais
+    📄 App.js                   - Componente principal com rotas
+    📄 App.css                  - Estilos do app (glass morphism)
+    
+    📂 components/
+      📄 StudentView.js         - Interface do aluno
+      📄 StudentView.css        - Estilos da interface do aluno
+      📄 TeacherDashboard.js   - Dashboard do docente
+      📄 TeacherDashboard.css  - Estilos do dashboard
+      📄 VideoPlayer.js         - Player de vídeo com eventos
+      📄 VideoPlayer.css        - Estilos do player
+      📄 InterventionPopups.js  - Sistema de intervenções
+      📄 InterventionPopups.css - Estilos das intervenções
+    
+    📂 utils/
+      📄 FaceDetection.js       - Sistema de visão computacional (MediaPipe)
+
+📊 TOTAIS:
+  - 6 arquivos Python (Backend API)
+  - 7 arquivos JavaScript (Frontend React)
+  - 11 arquivos CSS (Estilos)
+  - 5 arquivos Markdown (Documentação)
+  - 3 scripts e configs (Setup, Run, Git)
+
+🎯 CARACTERÍSTICAS PRINCIPAIS:
+
+Backend:
+  ✅ FastAPI com endpoints REST
+  ✅ SQLAlchemy ORM
+  ✅ SQLite database
+  ✅ Análise de risco em tempo real
+  ✅ CORS configurado
+
+Frontend:
+  ✅ React com React Router
+  ✅ MediaPipe Face Detection via CDN
+  ✅ Visão computacional no navegador
+  ✅ Sistema de intervenção adaptativa
+  ✅ Dashboard em tempo real
+  ✅ Design moderno (Liquid Glass)
+
+🎨 COMPONENTES:
+  ✅ VideoPlayer - Player com rastreamento de eventos
+  ✅ StudentView - Interface completa do aluno
+  ✅ TeacherDashboard - Monitoramento da turma
+  ✅ InterventionPopups - Notificações adaptativas
+  ✅ FaceDetection - Sistema de visão computacional
+
+📚 MÓDULOS IMPLEMENTADOS:
+  1. ✅ Coleta de Métricas de Interação
+  2. ✅ Detecção de Foco e Fadiga (CV)
+  3. ✅ Análise e Scoring
+  4. ✅ Intervenção Adaptativa
+  5. ✅ Painel do Docente
+
+🚀 COMO USAR:
+
+1. Setup:
+   chmod +x setup.sh run.sh
+   ./setup.sh
+
+2. Inicializar DB:
+   cd backend
+   python init_db.py
+   cd ..
+
+3. Executar:
+   ./run.sh
+
+4. Acessar:
+   - Alunos: http://localhost:3000
+   - Docentes: http://localhost:3000/dashboard
+   - API Docs: http://localhost:8000/docs
+
+📈 PRÓXIMOS PASSOS:
+
+Para adicionar funcionalidades:
+  - Autenticação (JWT)
+  - Cache (Redis)
+  - WebSockets (tempo real)
+  - Migração para PostgreSQL
+  - Testes automatizados
+  - CI/CD
+
+
+
