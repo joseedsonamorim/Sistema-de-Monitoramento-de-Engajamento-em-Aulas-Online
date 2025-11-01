@@ -33,6 +33,7 @@ Este sistema resolve o problema de alunos que assistem passivamente às gravaç�
 - **Intervenção por Desvio de Atenção**: Notificações imediatas
 - **Intervenção por Fadiga**: Sugestões de pausa
 
+<<<<<<< HEAD
 ###  Sistema de Quizzes e Avaliações
 - **Criação de Quizzes**: Professores podem criar quizzes com múltipla escolha
 - **Avaliação Automática**: Correção instantânea e cálculo de pontuação
@@ -51,6 +52,8 @@ Este sistema resolve o problema de alunos que assistem passivamente às gravaç�
 - **Logs Detalhados**: Registro completo de todas as interações
 - **Dashboard Analítico**: Visualização de dados educacionais agregados
 
+=======
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 ###  Painel do Docente
 - Dashboard com lista de alunos
 - Visualização de scores detalhados
@@ -169,10 +172,13 @@ npm start
 
 ### Acesso
 
+<<<<<<< HEAD
 - **Alunos**: http://localhost:3000
 - **Docentes**: http://localhost:3000/dashboard
 - **API Docs**: http://localhost:8000/docs
 
+=======
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 ##  Como Usar
 
 ### Para Alunos
@@ -224,12 +230,15 @@ O sistema foi projetado com privacidade em mente:
 - **Risco de Evasão**: Combinação ponderada de todas as métricas
 - **Pontuação de Quiz**: Porcentagem de acertos
 
+<<<<<<< HEAD
 ### Dados de Mineração
 - Padrões de interação por tipo
 - Estatísticas agregadas da turma
 - Médias de engajamento
 - Análise temporal de comportamento
 
+=======
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 ##  Interface
 
 O sistema utiliza um design moderno inspirado no **Apple Liquid Glass**:
@@ -263,6 +272,7 @@ O banco SQLite é criado automaticamente na primeira execução.
 - `POST /api/metricas/atencao` - Registrar métricas de atenção
 - `GET /api/analise/{aula_id}` - Obter análise da turma
 
+<<<<<<< HEAD
 ### Quizzes e Avaliações
 - `POST /api/quizzes` - Criar novo quiz
 - `GET /api/quizzes/{aula_id}` - Listar quizzes de uma aula
@@ -279,6 +289,8 @@ O banco SQLite é criado automaticamente na primeira execução.
 ### Mineração de Dados
 - `GET /api/mineracao-dados/{aula_id}` - Análise de dados educacionais
 
+=======
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 ##  Contribuição
 
 Contribuições são bem-vindas! Sinta-se livre para:
@@ -288,17 +300,29 @@ Contribuições são bem-vindas! Sinta-se livre para:
 4. Push para a branch (`git push origin feature/NovaFeature`)
 5. Abrir um Pull Request
 
+<<<<<<< HEAD
 ##  Licença
 
 Este projeto está sob a licença MIT.
 
 ##  Autores
+=======
+## � Licença
+
+Este projeto está sob a licença MIT.
+
+## � Autores
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 
 Desenvolvido para monitoramento inteligente de engajamento em educação online.
 
 ---
 
+<<<<<<< HEAD
 **Desenvolvido com  para melhorar a experiência educacional online**
+=======
+**Desenvolvido com para melhorar a experiência educacional online**
+>>>>>>> e93849ed41541b41219e8726c6b0b78788ad4ba7
 
 
 
