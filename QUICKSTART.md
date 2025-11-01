@@ -1,8 +1,8 @@
-# 🚀 Quick Start Guide
+#  Quick Start Guide
 
 ## Instalação Rápida
 
-### 1️⃣ Preparar o Ambiente
+### 1⃣ Preparar o Ambiente
 
 ```bash
 # Dar permissão de execução aos scripts
@@ -12,7 +12,7 @@ chmod +x setup.sh run.sh
 ./setup.sh
 ```
 
-### 2️⃣ Iniciar o Sistema
+### 2⃣ Iniciar o Sistema
 
 **Opção A: Script Automático (Recomendado)**
 ```bash
@@ -30,18 +30,18 @@ cd frontend
 npm start
 ```
 
-### 3️⃣ Acessar a Aplicação
+### 3⃣ Acessar a Aplicação
 
 - **Alunos**: http://localhost:3000
 - **Docentes**: http://localhost:3000/dashboard
 
-## 📋 Requisitos
+##  Requisitos
 
 - Python 3.8+
 - Node.js 14+
 - npm ou yarn
 
-## 🎯 Primeiro Uso
+##  Primeiro Uso
 
 ### Para Testar como Aluno:
 
@@ -57,7 +57,7 @@ npm start
 3. Identifique alunos em risco de evasão
 4. Monitore scores de atenção e fadiga
 
-## 🔧 Solução de Problemas
+##  Solução de Problemas
 
 ### Backend não inicia
 ```bash
@@ -81,7 +81,7 @@ npm start
 - O sistema usa fallback automático
 - Funciona em modo simulado sem câmera
 
-## 📊 Fluxo de Dados
+##  Fluxo de Dados
 
 ```
 Aluno → Webcam → MediaPipe (Local) → Métricas → API → Banco
@@ -89,7 +89,7 @@ Aluno → Webcam → MediaPipe (Local) → Métricas → API → Banco
                                               Dashboard do Docente
 ```
 
-## 🎓 Exemplos de Uso
+##  Exemplos de Uso
 
 ### Criar Aluno (via API)
 ```bash
@@ -110,7 +110,7 @@ curl -X POST http://localhost:8000/api/aulas \
 curl http://localhost:8000/api/analise/1
 ```
 
-## 🎨 Personalização
+##  Personalização
 
 ### Alterar Porta do Backend
 Edite `backend/main.py`:
@@ -128,21 +128,21 @@ Edite `frontend/package.json`:
 }
 ```
 
-## 🔒 Privacidade
+##  Privacidade
 
-- ✅ Processamento 100% local (navegador)
-- ✅ Apenas scores enviados ao servidor
-- ✅ Nenhum vídeo armazenado
-- ✅ Dados criptografados em trânsito (com HTTPS)
+-  Processamento 100% local (navegador)
+-  Apenas scores enviados ao servidor
+-  Nenhum vídeo armazenado
+-  Dados criptografados em trânsito (com HTTPS)
 
-## 📚 Próximos Passos
+##  Próximos Passos
 
 1. Leia o README.md completo
 2. Explore a documentação da API
 3. Customize os thresholds de intervenção
 4. Adicione seus próprios materiais
 
-## 🆘 Suporte
+##  Suporte
 
 Em caso de problemas:
 1. Verifique os logs no console

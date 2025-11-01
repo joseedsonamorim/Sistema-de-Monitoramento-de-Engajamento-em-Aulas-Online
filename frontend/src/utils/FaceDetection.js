@@ -112,17 +112,17 @@ export class FaceDetectionSystem {
   }
 
   calculateEAR(landmarks) {
-    // Índices dos pontos do olho esquerdo
-    const leftEye = [
-      landmarks[33], landmarks[7], landmarks[163], landmarks[144],
-      landmarks[145], landmarks[153], landmarks[154], landmarks[155]
-    ];
-    
-    // Índices dos pontos do olho direito
-    const rightEye = [
-      landmarks[362], landmarks[382], landmarks[381], landmarks[380],
-      landmarks[374], landmarks[373], landmarks[390], landmarks[249]
-    ];
+    // Índices dos pontos do olho esquerdo (usados para cálculo EAR)
+    // const leftEye = [
+    //   landmarks[33], landmarks[7], landmarks[163], landmarks[144],
+    //   landmarks[145], landmarks[153], landmarks[154], landmarks[155]
+    // ];
+
+    // Índices dos pontos do olho direito (usados para cálculo EAR)
+    // const rightEye = [
+    //   landmarks[362], landmarks[382], landmarks[381], landmarks[380],
+    //   landmarks[374], landmarks[373], landmarks[390], landmarks[249]
+    // ];
 
     const leftEAR = this.getEyeAspectRatio([
       landmarks[33], landmarks[133], landmarks[157], 
@@ -193,34 +193,53 @@ export class FaceDetectionSystem {
 
   async start() {
     try {
+      console.log('Iniciando sistema de detecção facial...');
       await this.initialize();
-      
+
       if (!this.faceMesh) {
-        console.error('MediaPipe não carregado');
+        console.error('MediaPipe não carregado, usando modo simulado');
+        this.simulateDetection();
+        if (this.onReady) {
+          this.onReady();
+        }
         return;
       }
 
       const videoElement = document.getElementById('input_video');
-      
+      if (!videoElement) {
+        console.error('Elemento de vídeo não encontrado');
+        this.simulateDetection();
+        if (this.onReady) {
+          this.onReady();
+        }
+        return;
+      }
+
+      // Garantir que o vídeo esteja pronto
+      videoElement.style.display = 'none';
+      videoElement.muted = true;
+      videoElement.playsInline = true;
+
       if (window.Camera) {
+        console.log('Iniciando câmera com MediaPipe...');
         this.camera = new window.Camera(videoElement, {
           onFrame: async () => {
-            if (this.faceMesh) {
+            if (this.faceMesh && videoElement.readyState >= 2) {
               await this.faceMesh.send({ image: videoElement });
             }
           },
           width: 640,
           height: 480
         });
-        
+
         await this.camera.start();
-        
+        console.log('Câmera iniciada com sucesso');
+
         if (this.onReady) {
           this.onReady();
         }
       } else {
-        // Fallback: simular detecção para desenvolvimento
-        console.log('MediaPipe não disponível, usando modo simulado');
+        console.log('Camera API não disponível, usando modo simulado');
         this.simulateDetection();
         if (this.onReady) {
           this.onReady();
@@ -228,6 +247,7 @@ export class FaceDetectionSystem {
       }
     } catch (error) {
       console.error('Erro ao iniciar câmera:', error);
+      console.log('Usando modo simulado devido ao erro');
       this.simulateDetection();
       if (this.onReady) {
         this.onReady();
@@ -236,23 +256,32 @@ export class FaceDetectionSystem {
   }
 
   simulateDetection() {
+    console.log('Iniciando modo simulado de detecção facial');
     // Modo simulado para desenvolvimento sem câmera
-    setInterval(() => {
+    this.simulationInterval = setInterval(() => {
+      const isGazeOnScreen = Math.random() > 0.3; // 70% chance de olhar para tela
+      const fatigueScore = Math.random() * 0.8; // Score de fadiga variável
+      const blinkIncrement = Math.floor(Math.random() * 3); // 0-2 piscadas por intervalo
+
+      this.blinkCount += blinkIncrement;
+
       this.onDetectionUpdate({
         faceDetected: true,
-        gazeOnScreen: Math.random() > 0.2,
-        fatigueScore: Math.random() * 0.5,
-        blinkCount: this.blinkCount + Math.floor(Math.random() * 2),
+        gazeOnScreen: isGazeOnScreen,
+        fatigueScore: fatigueScore,
+        blinkCount: this.blinkCount,
         yawnCount: this.yawnCount,
-        attentionScore: Math.random() > 0.3 ? 1.0 : 0.0
+        attentionScore: isGazeOnScreen ? (1.0 - fatigueScore * 0.5) : 0.0
       });
-      this.blinkCount++;
     }, 2000);
   }
 
   stop() {
     if (this.camera) {
       this.camera.stop();
+    }
+    if (this.simulationInterval) {
+      clearInterval(this.simulationInterval);
     }
   }
 

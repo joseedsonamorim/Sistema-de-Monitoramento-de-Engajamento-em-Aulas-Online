@@ -1,8 +1,8 @@
-# 🚀 Como Usar - Inicializador Único
+#  Como Usar - Inicializador Único
 
 Este projeto agora possui **dois scripts únicos** para rodar todo o sistema com um único comando!
 
-## ✨ Opções Disponíveis
+##  Opções Disponíveis
 
 ### Opção 1: Script Python (Recomendado)
 ```bash
@@ -10,11 +10,11 @@ python3 run_complete.py
 ```
 
 **Vantagens:**
-- ✅ Interface colorida e amigável
-- ✅ Verificação automática de dependências
-- ✅ Menu interativo
-- ✅ Melhor controle de processos
-- ✅ Mensagens claras e informativas
+-  Interface colorida e amigável
+-  Verificação automática de dependências
+-  Menu interativo
+-  Melhor controle de processos
+-  Mensagens claras e informativas
 
 ### Opção 2: Script Bash
 ```bash
@@ -22,11 +22,11 @@ python3 run_complete.py
 ```
 
 **Vantagens:**
-- ✅ Mais rápido
-- ✅ Compatível com qualquer shell Unix
-- ✅ Mais leve
+-  Mais rápido
+-  Compatível com qualquer shell Unix
+-  Mais leve
 
-## 📋 O Que os Scripts Fazem
+##  O Que os Scripts Fazem
 
 Ambos os scripts fazem a mesma coisa:
 
@@ -47,7 +47,7 @@ Ambos os scripts fazem a mesma coisa:
    - Backend na porta 8000
    - Frontend na porta 3000
 
-## 🎯 Como Usar
+##  Como Usar
 
 ### Primeira Vez (Instalação + Execução)
 
@@ -73,20 +73,20 @@ python3 run_complete.py
 
 Então digite `2` quando perguntado.
 
-## 🌐 Acessar o Sistema
+##  Acessar o Sistema
 
 Após executar o script, você terá acesso a:
 
-- 📱 **Alunos**: http://localhost:3000
-- 👨‍🏫 **Docentes**: http://localhost:3000/dashboard
-- 🔧 **API Backend**: http://localhost:8000
-- 📚 **Documentação da API**: http://localhost:8000/docs
+-  **Alunos**: http://localhost:3000
+-  **Docentes**: http://localhost:3000/dashboard
+-  **API Backend**: http://localhost:8000
+-  **Documentação da API**: http://localhost:8000/docs
 
-## 🛑 Como Parar
+##  Como Parar
 
 Pressione `Ctrl+C` para encerrar todos os serviços automaticamente.
 
-## ⚠️ Requisitos
+##  Requisitos
 
 Antes de executar, certifique-se de ter instalado:
 
@@ -99,7 +99,7 @@ python3 --version
 npm --version
 ```
 
-## 📁 Estrutura
+##  Estrutura
 
 Após a primeira execução, a seguinte estrutura será criada:
 
@@ -117,7 +117,7 @@ Monitoramento de Engajamento em Aulas Online/
 
 **Nota:** O diretório `.venv/` é criado automaticamente para isolar as dependências Python do sistema.
 
-## 🔧 Resolução de Problemas
+##  Resolução de Problemas
 
 ### Erro de compatibilidade Python 3.13
 Se você estiver usando Python 3.13 e encontrar erros com SQLAlchemy:
@@ -178,21 +178,21 @@ cd frontend
 npm install
 ```
 
-## 💡 Dicas
+##  Dicas
 
 1. **Primeira Execução**: Sempre escolha a opção 1 para instalar tudo
 2. **Atualizações**: Se adicionar novas dependências, escolha opção 1 novamente
 3. **Reiniciar**: Use opção 2 para reiniciar rapidamente sem reinstalar
 4. **Status**: Os scripts mostram o status de cada etapa com ícones coloridos
 
-## 🎓 Dados de Exemplo
+##  Dados de Exemplo
 
 O banco é inicializado com:
 - 1 docente: Prof. Dr. Carlos Silva
 - 5 alunos: Ana Santos, Bruno Oliveira, Carla Pereira, Daniel Souza, Elena Costa
 - 1 aula: Introdução à Programação Web
 
-## 📞 Ajuda
+##  Ajuda
 
 Se tiver problemas:
 1. Verifique se todas as dependências estão instaladas
@@ -202,5 +202,5 @@ Se tiver problemas:
 
 ---
 
-**Desenvolvido com ❤️ para educação online**
+**Desenvolvido com  para educação online**
 

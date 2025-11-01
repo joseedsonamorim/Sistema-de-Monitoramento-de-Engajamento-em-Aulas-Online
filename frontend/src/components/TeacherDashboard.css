@@ -201,16 +201,129 @@
   color: #fff;
 }
 
+.data-mining-section {
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.data-mining-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.mining-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4ade80;
+}
+
+.patterns {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+}
+
+.patterns h3 {
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.patterns ul {
+  list-style: none;
+  padding: 0;
+}
+
+.patterns li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.quizzes-section {
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.create-quiz-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.create-quiz-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.quizzes-list {
+  display: grid;
+  gap: 15px;
+}
+
+.quiz-item {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quiz-item h3 {
+  color: #fff;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+}
+
+.quiz-item p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.quiz-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9em;
+}
+
+.no-quizzes {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 40px;
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .students-table {
     font-size: 0.8rem;
   }
-  
+
   .students-table th,
   .students-table td {
     padding: 8px;
   }
-  
+
   .alert-student {
     grid-template-columns: 1fr;
   }

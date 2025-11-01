@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './TeacherDashboard.css';
 
@@ -8,14 +8,16 @@ function TeacherDashboard() {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(true);
   const [aulaId] = useState(1);
+  const [quizzes, setQuizzes] = useState([]);
+  const [dataMining, setDataMining] = useState(null);
+  const [showCreateQuiz, setShowCreateQuiz] = useState(false);
+  const [newQuiz, setNewQuiz] = useState({
+    titulo: '',
+    descricao: '',
+    perguntas: {}
+  });
 
-  useEffect(() => {
-    fetchAnalysis();
-    const interval = setInterval(fetchAnalysis, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchAnalysis = async () => {
+  const fetchAnalysis = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/analise/${aulaId}`);
       setAnalysis(response.data);
@@ -24,7 +26,33 @@ function TeacherDashboard() {
       console.error('Erro ao buscar análise:', error);
       setLoading(false);
     }
-  };
+  }, [aulaId]);
+
+  const loadQuizzes = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/quizzes/${aulaId}`);
+      setQuizzes(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar quizzes:', error);
+    }
+  }, [aulaId]);
+
+  const loadDataMining = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/mineracao-dados/${aulaId}`);
+      setDataMining(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar mineração de dados:', error);
+    }
+  }, [aulaId]);
+
+  useEffect(() => {
+    fetchAnalysis();
+    loadQuizzes();
+    loadDataMining();
+    const interval = setInterval(fetchAnalysis, 3000); // Atualizar a cada 3 segundos para tempo real
+    return () => clearInterval(interval);
+  }, [fetchAnalysis, loadQuizzes, loadDataMining]);
 
   const getRiskColor = (risco) => {
     if (risco >= 70) return '#ef4444';
@@ -151,6 +179,66 @@ function TeacherDashboard() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="data-mining-section glass-card">
+        <h2>📊 Mineração de Dados Educacionais</h2>
+        {dataMining && (
+          <div className="data-mining-content">
+            <div className="mining-stat">
+              <span className="stat-label">Total de Alunos:</span>
+              <span className="stat-value">{dataMining.total_alunos}</span>
+            </div>
+            <div className="mining-stat">
+              <span className="stat-label">Média de Atenção:</span>
+              <span className="stat-value">{(dataMining.media_atencao * 100).toFixed(1)}%</span>
+            </div>
+            <div className="mining-stat">
+              <span className="stat-label">Média de Fadiga:</span>
+              <span className="stat-value">{(dataMining.media_fadiga * 100).toFixed(1)}%</span>
+            </div>
+            <div className="mining-stat">
+              <span className="stat-label">Total de Interações:</span>
+              <span className="stat-value">{dataMining.total_interacoes}</span>
+            </div>
+            <div className="mining-stat">
+              <span className="stat-label">Média de Cliques:</span>
+              <span className="stat-value">{dataMining.media_cliques.toFixed(1)}</span>
+            </div>
+            <div className="patterns">
+              <h3>Padrões de Interação:</h3>
+              <ul>
+                {Object.entries(dataMining.padroes_interacao).map(([tipo, count]) => (
+                  <li key={tipo}>{tipo}: {count} ocorrências</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="quizzes-section glass-card">
+        <h2>📝 Quizzes e Avaliações</h2>
+        <button
+          className="create-quiz-btn"
+          onClick={() => setShowCreateQuiz(true)}
+        >
+          + Criar Novo Quiz
+        </button>
+        <div className="quizzes-list">
+          {quizzes.map(quiz => (
+            <div key={quiz.id} className="quiz-item">
+              <h3>{quiz.titulo}</h3>
+              <p>{quiz.descricao}</p>
+              <span className="quiz-date">
+                Criado em: {new Date(quiz.criado_em).toLocaleDateString()}
+              </span>
+            </div>
+          ))}
+          {quizzes.length === 0 && (
+            <p className="no-quizzes">Nenhum quiz criado ainda.</p>
+          )}
+        </div>
       </div>
 
       <div className="alert-section glass-card">

@@ -1,4 +1,4 @@
-# 🏗️ Arquitetura do Sistema
+#  Arquitetura do Sistema
 
 ## Visão Geral
 

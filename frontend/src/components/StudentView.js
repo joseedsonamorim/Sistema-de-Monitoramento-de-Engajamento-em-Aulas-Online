@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FaceDetectionSystem } from '../utils/FaceDetection';
 import VideoPlayer from './VideoPlayer';
 import InterventionPopups from './InterventionPopups';
@@ -28,64 +28,17 @@ function StudentView() {
   const [interventions, setInterventions] = useState([]);
   const [studentId] = useState(1);
   const [aulaId] = useState(1);
-  
+  const [quizzes, setQuizzes] = useState([]);
+  const [currentQuiz, setCurrentQuiz] = useState(null);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizStartTime, setQuizStartTime] = useState(null);
+  const [personalizedSummary, setPersonalizedSummary] = useState(null);
+
   const faceDetectionRef = useRef(null);
   const metricsIntervalRef = useRef(null);
   const startTimeRef = useRef(Date.now());
 
-  useEffect(() => {
-    if (!faceDetectionRef.current) {
-      faceDetectionRef.current = new FaceDetectionSystem(
-        handleDetectionUpdate,
-        handleCameraReady
-      );
-      
-      faceDetectionRef.current.start().catch(err => {
-        console.error('Erro ao iniciar detecção facial:', err);
-      });
-    }
-
-    return () => {
-      if (faceDetectionRef.current) {
-        faceDetectionRef.current.stop();
-      }
-      if (metricsIntervalRef.current) {
-        clearInterval(metricsIntervalRef.current);
-      }
-    };
-  }, []);
-
-  const handleCameraReady = () => {
-    setIsCameraReady(true);
-    
-    // Iniciar envio periódico de métricas
-    metricsIntervalRef.current = setInterval(() => {
-      sendMetrics();
-    }, 5000); // Enviar a cada 5 segundos
-  };
-
-  const handleDetectionUpdate = (data) => {
-    setDetectionData(data);
-
-    // Verificar condições para intervenção
-    if (!data.gazeOnScreen && data.faceDetected) {
-      triggerIntervention('attention', 'Detectamos que sua atenção desviou. Mantenha o foco na tela.');
-    }
-
-    if (data.fatigueScore > 0.7) {
-      triggerIntervention('fatigue', 'Você parece cansado. Recomendamos uma pausa de 2 minutos.');
-    }
-
-    // Verificar baixa interação
-    const currentTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-    const interactionScore = (interactionMetrics.cliquesMateriais + Object.values(interactionMetrics.eventosPlayer).reduce((a, b) => a + b, 0));
-    
-    if (currentTime > 120 && interactionScore < 2) {
-      triggerIntervention('interaction', 'Você não está interagindo com o material. Que tal fazer algumas anotações?');
-    }
-  };
-
-  const triggerIntervention = (type, message) => {
+  const triggerIntervention = useCallback((type, message) => {
     // Evitar múltiplas intervenções do mesmo tipo em pouco tempo
     const recentInterventions = interventions.filter(
       i => i.tipo === type && Date.now() - i.timestamp < 30000
@@ -98,12 +51,12 @@ function StudentView() {
         mensagem: message,
         timestamp: Date.now()
       };
-      
+
       setInterventions(prev => [...prev, intervention]);
     }
-  };
+  }, [interventions]);
 
-  const sendMetrics = async () => {
+  const sendMetrics = useCallback(async () => {
     try {
       // Enviar métricas de atenção
       if (detectionData.faceDetected) {
@@ -132,7 +85,59 @@ function StudentView() {
     } catch (error) {
       console.error('Erro ao enviar métricas:', error);
     }
-  };
+  }, [detectionData, interactionMetrics, studentId, aulaId]);
+
+  const handleCameraReady = useCallback(() => {
+    setIsCameraReady(true);
+
+    // Iniciar envio periódico de métricas
+    metricsIntervalRef.current = setInterval(() => {
+      sendMetrics();
+    }, 2000); // Enviar a cada 2 segundos para tempo real
+  }, [sendMetrics]);
+
+  const handleDetectionUpdate = useCallback((data) => {
+    setDetectionData(data);
+
+    // Verificar condições para intervenção
+    if (!data.gazeOnScreen && data.faceDetected) {
+      triggerIntervention('attention', 'Detectamos que sua atenção desviou. Mantenha o foco na tela.');
+    }
+
+    if (data.fatigueScore > 0.7) {
+      triggerIntervention('fatigue', 'Você parece cansado. Recomendamos uma pausa de 2 minutos.');
+    }
+
+    // Verificar baixa interação
+    const currentTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
+    const interactionScore = (interactionMetrics.cliquesMateriais + Object.values(interactionMetrics.eventosPlayer).reduce((a, b) => a + b, 0));
+
+    if (currentTime > 120 && interactionScore < 2) {
+      triggerIntervention('interaction', 'Você não está interagindo com o material. Que tal fazer algumas anotações?');
+    }
+  }, [interactionMetrics.cliquesMateriais, interactionMetrics.eventosPlayer, triggerIntervention]);
+
+  useEffect(() => {
+    if (!faceDetectionRef.current) {
+      faceDetectionRef.current = new FaceDetectionSystem(
+        handleDetectionUpdate,
+        handleCameraReady
+      );
+
+      faceDetectionRef.current.start().catch(err => {
+        console.error('Erro ao iniciar detecção facial:', err);
+      });
+    }
+
+    return () => {
+      if (faceDetectionRef.current) {
+        faceDetectionRef.current.stop();
+      }
+      if (metricsIntervalRef.current) {
+        clearInterval(metricsIntervalRef.current);
+      }
+    };
+  }, [handleDetectionUpdate, handleCameraReady]);
 
   const handlePlayerEvent = (evento) => {
     setInteractionMetrics(prev => ({
@@ -162,10 +167,80 @@ function StudentView() {
     setInterventions(prev => prev.filter(i => i.id !== id));
   };
 
+  // Funções para Quiz
+  const loadQuizzes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/quizzes/${aulaId}`);
+      setQuizzes(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar quizzes:', error);
+    }
+  };
+
+  const startQuiz = (quiz) => {
+    setCurrentQuiz(quiz);
+    setQuizAnswers({});
+    setQuizStartTime(Date.now());
+  };
+
+  const answerQuizQuestion = (questionId, answer) => {
+    setQuizAnswers(prev => ({
+      ...prev,
+      [questionId]: answer
+    }));
+  };
+
+  const submitQuiz = async () => {
+    if (!currentQuiz) return;
+
+    const timeSpent = Math.floor((Date.now() - quizStartTime) / 1000);
+
+    try {
+      await axios.post(`${API_BASE_URL}/api/respostas-quiz`, {
+        quiz_id: currentQuiz.id,
+        aluno_id: studentId,
+        respostas: quizAnswers,
+        tempo_resposta: timeSpent
+      });
+
+      // Registrar log de interação
+      await axios.post(`${API_BASE_URL}/api/logs-interacao`, {
+        aluno_id: studentId,
+        aula_id: aulaId,
+        tipo_interacao: 'quiz',
+        detalhes: { quiz_id: currentQuiz.id, pontuacao: 'calculada' }
+      });
+
+      setCurrentQuiz(null);
+      setQuizAnswers({});
+      setQuizStartTime(null);
+
+      alert('Quiz enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar quiz:', error);
+    }
+  };
+
+  // Função para carregar resumo personalizado
+  const loadPersonalizedSummary = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/resumos-personalizados/${studentId}/${aulaId}`);
+      setPersonalizedSummary(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar resumo personalizado:', error);
+    }
+  };
+
+  // Carregar quizzes e resumo ao montar componente
+  useEffect(() => {
+    loadQuizzes();
+    loadPersonalizedSummary();
+  }, []);
+
   return (
     <div className="student-view">
       <div className="video-container">
-        <video id="input_video" style={{ display: 'none' }} autoPlay></video>
+        <video id="input_video" style={{ display: 'none' }} autoPlay muted></video>
         <VideoPlayer onEvent={handlePlayerEvent} />
       </div>
 
@@ -207,6 +282,43 @@ function StudentView() {
           <button className="material-link" onClick={handleMaterialClick}>
             🎬 Vídeo Extra
           </button>
+
+          {quizzes.length > 0 && (
+            <div className="quizzes-section">
+              <h4>Quizzes Disponíveis</h4>
+              {quizzes.map(quiz => (
+                <button
+                  key={quiz.id}
+                  className="material-link quiz-link"
+                  onClick={() => startQuiz(quiz)}
+                >
+                  📝 {quiz.titulo}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {personalizedSummary && (
+            <div className="summary-section">
+              <h4>Resumo Personalizado</h4>
+              <div className="summary-content">
+                <h5>{personalizedSummary.titulo}</h5>
+                <p>{personalizedSummary.conteudo}</p>
+                <div className="topics">
+                  <strong>Tópicos Principais:</strong>
+                  <ul>
+                    {personalizedSummary.topicos_principais.map((topic, index) => (
+                      <li key={index}>{topic}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="recommendations">
+                  <strong>Recomendações:</strong>
+                  <p>{personalizedSummary.recomendacoes}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="notes-section">
@@ -221,6 +333,54 @@ function StudentView() {
       </div>
 
       <InterventionPopups interventions={interventions} onDismiss={dismissIntervention} />
+
+      {/* Modal do Quiz */}
+      {currentQuiz && (
+        <div className="quiz-modal-overlay">
+          <div className="quiz-modal glass-card">
+            <h3>{currentQuiz.titulo}</h3>
+            <p>{currentQuiz.descricao}</p>
+
+            <div className="quiz-questions">
+              {Object.entries(currentQuiz.perguntas).map(([questionId, question]) => (
+                <div key={questionId} className="quiz-question">
+                  <h4>{question.texto}</h4>
+                  <div className="quiz-options">
+                    {question.opcoes.map((option, index) => (
+                      <label key={index} className="quiz-option">
+                        <input
+                          type="radio"
+                          name={`question-${questionId}`}
+                          value={option}
+                          onChange={(e) => answerQuizQuestion(questionId, e.target.value)}
+                          checked={quizAnswers[questionId] === option}
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="quiz-actions">
+              <button
+                className="quiz-submit-btn"
+                onClick={submitQuiz}
+                disabled={Object.keys(quizAnswers).length !== Object.keys(currentQuiz.perguntas).length}
+              >
+                Enviar Quiz
+              </button>
+              <button
+                className="quiz-cancel-btn"
+                onClick={() => setCurrentQuiz(null)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

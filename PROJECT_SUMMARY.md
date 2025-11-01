@@ -1,30 +1,30 @@
-# 📊 Resumo do Projeto: Sistema de Monitoramento de Engajamento em Aulas Online
+#  Resumo do Projeto: Sistema de Monitoramento de Engajamento em Aulas Online
 
-## ✅ Projeto Completo Implementado
+##  Projeto Completo Implementado
 
-### 📦 Estrutura de Arquivos
+###  Estrutura de Arquivos
 
 ```
 Monitoramento de Engajamento em Aulas Online/
 │
-├── 📁 backend/
+├──  backend/
 │   ├── __init__.py              # Inicialização do pacote
 │   ├── main.py                  # API FastAPI principal
 │   ├── database.py              # Configuração SQLAlchemy
 │   ├── models.py                # Modelos do banco de dados
 │   └── init_db.py               # Script de inicialização do DB
 │
-├── 📁 frontend/
+├──  frontend/
 │   ├── package.json             # Dependências Node.js
 │   ├── README.md                # Documentação frontend
-│   ├── 📁 public/
+│   ├──  public/
 │   │   └── index.html           # HTML com MediaPipe CDN
-│   └── 📁 src/
+│   └──  src/
 │       ├── App.js               # App principal React
 │       ├── App.css              # Estilos globais
 │       ├── index.js             # Entry point
 │       ├── index.css            # Estilos base
-│       ├── 📁 components/
+│       ├──  components/
 │       │   ├── StudentView.js   # Interface do aluno
 │       │   ├── StudentView.css
 │       │   ├── TeacherDashboard.js  # Dashboard docente
@@ -33,7 +33,7 @@ Monitoramento de Engajamento em Aulas Online/
 │       │   ├── VideoPlayer.css
 │       │   ├── InterventionPopups.js  # Sistema de intervenções
 │       │   └── InterventionPopups.css
-│       └── 📁 utils/
+│       └──  utils/
 │           └── FaceDetection.js  # Sistema de CV
 │
 ├── requirements.txt             # Dependências Python
@@ -45,82 +45,82 @@ Monitoramento de Engajamento em Aulas Online/
 └── .gitignore                   # Arquivos ignorados
 ```
 
-## 🎯 Módulos Implementados
+##  Módulos Implementados
 
-### 1. ✅ Módulo de Coleta de Métricas de Interação
+### 1.  Módulo de Coleta de Métricas de Interação
 **Arquivos**: `VideoPlayer.js`, `StudentView.js`
 
 **Funcionalidades**:
-- ✅ Rastreamento de tempo de permanência
-- ✅ Monitoramento de eventos do player (play, pause, seek)
-- ✅ Captura de cliques em materiais complementares
-- ✅ Salvamento de anotações do aluno
-- ✅ Envio periódico para API (a cada 5 segundos)
+-  Rastreamento de tempo de permanência
+-  Monitoramento de eventos do player (play, pause, seek)
+-  Captura de cliques em materiais complementares
+-  Salvamento de anotações do aluno
+-  Envio periódico para API (a cada 5 segundos)
 
-### 2. ✅ Módulo de Detecção de Foco e Fadiga
+### 2.  Módulo de Detecção de Foco e Fadiga
 **Arquivos**: `FaceDetection.js`, `StudentView.js`
 
 **Funcionalidades**:
-- ✅ Gaze Tracking (estimativa de direção do olhar)
-- ✅ Detecção de Fadiga via Eye Aspect Ratio (EAR)
-- ✅ Detecção de bocejos via análise da boca
-- ✅ Detecção de ausência (presença do rosto)
-- ✅ Contagem de piscadas
-- ✅ Processamento 100% local no navegador
-- ✅ Fallback para modo simulado sem câmera
+-  Gaze Tracking (estimativa de direção do olhar)
+-  Detecção de Fadiga via Eye Aspect Ratio (EAR)
+-  Detecção de bocejos via análise da boca
+-  Detecção de ausência (presença do rosto)
+-  Contagem de piscadas
+-  Processamento 100% local no navegador
+-  Fallback para modo simulado sem câmera
 
-### 3. ✅ Módulo de Análise e Scoring
+### 3.  Módulo de Análise e Scoring
 **Arquivos**: `main.py` (endpoint `/api/analise/{aula_id}`)
 
 **Scores Implementados**:
-- ✅ Score de Atenção (porcentagem de foco na tela)
-- ✅ Score de Fadiga (combinando EAR e bocejos)
-- ✅ Contador de Desvios de Olhar
-- ✅ Contador de Interrupções
-- ✅ Risco de Evasão (peso ponderado de todas as métricas)
+-  Score de Atenção (porcentagem de foco na tela)
+-  Score de Fadiga (combinando EAR e bocejos)
+-  Contador de Desvios de Olhar
+-  Contador de Interrupções
+-  Risco de Evasão (peso ponderado de todas as métricas)
 
-### 4. ✅ Módulo de Intervenção Adaptativa
+### 4.  Módulo de Intervenção Adaptativa
 **Arquivos**: `InterventionPopups.js`, `StudentView.js`
 
 **Intervenções**:
-- ✅ Por baixa interação (quiz/resumo sugerido)
-- ✅ Por desvio de atenção (notificação imediata)
-- ✅ Por fadiga (sugestão de pausa)
-- ✅ Sistema de cooldown para evitar spam
+-  Por baixa interação (quiz/resumo sugerido)
+-  Por desvio de atenção (notificação imediata)
+-  Por fadiga (sugestão de pausa)
+-  Sistema de cooldown para evitar spam
 
-### 5. ✅ Painel do Docente
+### 5.  Painel do Docente
 **Arquivos**: `TeacherDashboard.js`
 
 **Funcionalidades**:
-- ✅ Lista de alunos com risco de evasão
-- ✅ Visualização de scores detalhados
-- ✅ Métricas de atenção, fadiga, cliques e tempo
-- ✅ Destaque de alunos em alto risco
-- ✅ Atualização em tempo real (a cada 10 segundos)
-- ✅ Seção de alertas para alunos críticos
+-  Lista de alunos com risco de evasão
+-  Visualização de scores detalhados
+-  Métricas de atenção, fadiga, cliques e tempo
+-  Destaque de alunos em alto risco
+-  Atualização em tempo real (a cada 10 segundos)
+-  Seção de alertas para alunos críticos
 
-## 🔧 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Backend
-- ✅ FastAPI (Framework web)
-- ✅ SQLAlchemy (ORM)
-- ✅ SQLite (Banco de dados)
-- ✅ Uvicorn (Servidor ASGI)
-- ✅ Pydantic (Validação)
+-  FastAPI (Framework web)
+-  SQLAlchemy (ORM)
+-  SQLite (Banco de dados)
+-  Uvicorn (Servidor ASGI)
+-  Pydantic (Validação)
 
 ### Frontend
-- ✅ React 18
-- ✅ React Router (Roteamento)
-- ✅ Axios (HTTP client)
-- ✅ MediaPipe via CDN (Visão computacional)
+-  React 18
+-  React Router (Roteamento)
+-  Axios (HTTP client)
+-  MediaPipe via CDN (Visão computacional)
 
 ### Processamento
-- ✅ Detecção facial (MediaPipe Face Mesh)
-- ✅ Gaze tracking (estimativa de olhar)
-- ✅ Eye Aspect Ratio para piscadas
-- ✅ Análise de boca para bocejos
+-  Detecção facial (MediaPipe Face Mesh)
+-  Gaze tracking (estimativa de olhar)
+-  Eye Aspect Ratio para piscadas
+-  Análise de boca para bocejos
 
-## 🚀 Como Executar
+##  Como Executar
 
 ### Setup Inicial
 ```bash
@@ -144,7 +144,7 @@ cd ..
 - **Docentes**: http://localhost:3000/dashboard
 - **API Docs**: http://localhost:8000/docs
 
-## 📊 Métricas Coletadas
+##  Métricas Coletadas
 
 ### Métricas de Interação
 ```javascript
@@ -184,51 +184,51 @@ cd ..
 }
 ```
 
-## 🎨 Interface
+##  Interface
 
 ### Design
-- ✅ Glass morphism (Apple Liquid Glass)
-- ✅ Gradiente moderno
-- ✅ Animações suaves
-- ✅ Responsivo
-- ✅ Dark theme friendly
+-  Glass morphism (Apple Liquid Glass)
+-  Gradiente moderno
+-  Animações suaves
+-  Responsivo
+-  Dark theme friendly
 
 ### Componentes Visuais
-- ✅ Cards com efeito de vidro
-- ✅ Barras de progresso animadas
-- ✅ Badges de risco coloridos
-- ✅ Popups de intervenção
-- ✅ Status indicators em tempo real
+-  Cards com efeito de vidro
+-  Barras de progresso animadas
+-  Badges de risco coloridos
+-  Popups de intervenção
+-  Status indicators em tempo real
 
-## 🔒 Privacidade
+##  Privacidade
 
 ### Processamento Local
-- ✅ Análise de vídeo no navegador do aluno
-- ✅ Nenhum stream de vídeo transmitido
-- ✅ Apenas scores enviados ao servidor
-- ✅ Permissão explícita necessária
+-  Análise de vídeo no navegador do aluno
+-  Nenhum stream de vídeo transmitido
+-  Apenas scores enviados ao servidor
+-  Permissão explícita necessária
 
 ### Dados Armazenados
-- ✅ Métricas agregadas
-- ✅ Scores numéricos
-- ✅ Anotações do aluno (opcional)
-- ❌ Nenhum dado de vídeo
+-  Métricas agregadas
+-  Scores numéricos
+-  Anotações do aluno (opcional)
+-  Nenhum dado de vídeo
 
-## 📈 Performance
+##  Performance
 
 ### Otimizações
-- ✅ Processamento assíncrono
-- ✅ Envio de métricas em batch (5s)
-- ✅ Atualização condicional do dashboard (10s)
-- ✅ MediaPipe carregado via CDN
-- ✅ Fallback para modo simulado
+-  Processamento assíncrono
+-  Envio de métricas em batch (5s)
+-  Atualização condicional do dashboard (10s)
+-  MediaPipe carregado via CDN
+-  Fallback para modo simulado
 
 ### Limitações
-- ⚠️ SQLite (escala verticalmente)
-- ⚠️ Sem cache (adapta adicionando Redis)
-- ⚠️ Sem autenticação (adicionar JWT)
+-  SQLite (escala verticalmente)
+-  Sem cache (adapta adicionando Redis)
+-  Sem autenticação (adicionar JWT)
 
-## 🧪 Modos de Operação
+##  Modos de Operação
 
 ### Modo Normal
 - Processamento completo com câmera
@@ -240,7 +240,7 @@ cd ..
 - Dados simulados para desenvolvimento
 - Útil para testes e demos
 
-## 📝 Endpoints da API
+##  Endpoints da API
 
 ### Métricas
 - `POST /api/metricas/interacao` - Registrar interações
@@ -253,7 +253,7 @@ cd ..
 - `POST /api/aulas` - Criar aula
 - `GET /api/aulas` - Listar aulas
 
-## 🎓 Casos de Uso
+##  Casos de Uso
 
 ### Para Alunos
 1. Acessar a aula online
@@ -270,7 +270,7 @@ cd ..
 4. Visualizar detalhes por aluno
 5. Tomar ações corretivas
 
-## 🔄 Fluxo Completo
+##  Fluxo Completo
 
 ```
 Aluno Acessa → Câmera Ativada → Detecção Facial → Análise
@@ -284,7 +284,7 @@ Aluno Acessa → Câmera Ativada → Detecção Facial → Análise
   Dashboard Docente ←── Visualização em Tempo Real ────────┘
 ```
 
-## ✨ Diferenciais
+##  Diferenciais
 
 1. **Privacidade**: Processamento 100% local
 2. **Tempo Real**: Métricas a cada 5 segundos
@@ -293,22 +293,22 @@ Aluno Acessa → Câmera Ativada → Detecção Facial → Análise
 5. **Completo**: Todos os módulos solicitados implementados
 6. **Extensível**: Arquitetura modular
 
-## 📚 Documentação
+##  Documentação
 
-- ✅ README.md - Documentação principal
-- ✅ QUICKSTART.md - Guia rápido
-- ✅ ARCHITECTURE.md - Arquitetura detalhada
-- ✅ frontend/README.md - Docs do frontend
+-  README.md - Documentação principal
+-  QUICKSTART.md - Guia rápido
+-  ARCHITECTURE.md - Arquitetura detalhada
+-  frontend/README.md - Docs do frontend
 
-## 🎉 Status: COMPLETO
+##  Status: COMPLETO
 
-✅ Todos os módulos implementados
-✅ Backend funcional com FastAPI
-✅ Frontend React com visão computacional
-✅ Sistema de intervenção
-✅ Dashboard do docente
-✅ Banco de dados estruturado
-✅ Documentação completa
+ Todos os módulos implementados
+ Backend funcional com FastAPI
+ Frontend React com visão computacional
+ Sistema de intervenção
+ Dashboard do docente
+ Banco de dados estruturado
+ Documentação completa
 
 **O sistema está pronto para uso!**
 

@@ -4,6 +4,16 @@
 
 echo "🚀 Iniciando Sistema de Monitoramento de Engajamento..."
 
+# Verificar se o ambiente virtual existe
+if [ ! -d "venv" ]; then
+    echo "❌ Ambiente virtual não encontrado. Execute ./setup.sh primeiro."
+    exit 1
+fi
+
+# Ativar ambiente virtual
+echo "🔧 Ativando ambiente virtual..."
+source venv/bin/activate
+
 # Iniciar backend em background
 echo "▶️  Iniciando backend na porta 8000..."
 cd backend

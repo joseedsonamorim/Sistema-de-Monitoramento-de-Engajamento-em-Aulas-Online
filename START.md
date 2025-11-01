@@ -1,6 +1,6 @@
-# 🚀 Comece Aqui - Inicialização Rápida
+#  Comece Aqui - Inicialização Rápida
 
-## ⚡ Execução em 1 Comando
+##  Execução em 1 Comando
 
 ```bash
 python3 run_complete.py
@@ -10,12 +10,12 @@ python3 run_complete.py
 
 ---
 
-## 📝 O Que Você Precisa Ter
+##  O Que Você Precisa Ter
 
 Antes de executar, certifique-se de ter:
 
-- ✅ Python 3 instalado
-- ✅ Node.js e npm instalados
+-  Python 3 instalado
+-  Node.js e npm instalados
 
 Verifique com:
 ```bash
@@ -25,7 +25,7 @@ npm --version
 
 ---
 
-## 🎬 Como Funciona
+##  Como Funciona
 
 Quando você executar o script:
 
@@ -49,24 +49,24 @@ Quando você executar o script:
 
 ---
 
-## 🌐 Após Iniciar
+##  Após Iniciar
 
 Acesse:
 
-- 👨‍🎓 **Alunos**: http://localhost:3000
-- 👨‍🏫 **Docentes**: http://localhost:3000/dashboard
-- 🔧 **API**: http://localhost:8000
-- 📚 **Docs**: http://localhost:8000/docs
+-  **Alunos**: http://localhost:3000
+-  **Docentes**: http://localhost:3000/dashboard
+-  **API**: http://localhost:8000
+-  **Docs**: http://localhost:8000/docs
 
 ---
 
-## 🛑 Para Parar
+##  Para Parar
 
 Pressione `Ctrl+C` no terminal.
 
 ---
 
-## ❓ Problemas?
+##  Problemas?
 
 Consulte `COMO_USAR.md` para solução de problemas comuns.
 
@@ -78,6 +78,6 @@ Consulte `COMO_USAR.md` para solução de problemas comuns.
 python3 run_complete.py
 ```
 
-🎉 **Boa sorte!**
+ **Boa sorte!**
 
 
