@@ -9,6 +9,7 @@ const API_BASE_URL = 'http://localhost:8000';
 
 function StudentView() {
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [cameraError, setCameraError] = useState(null);
   const [detectionData, setDetectionData] = useState({
     faceDetected: false,
     gazeOnScreen: false,
@@ -17,6 +18,7 @@ function StudentView() {
     yawnCount: 0,
     attentionScore: 0
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   const [interactionMetrics, setInteractionMetrics] = useState({
     tempoPermaneencia: 0,
@@ -118,16 +120,29 @@ function StudentView() {
   }, [interactionMetrics.cliquesMateriais, interactionMetrics.eventosPlayer, triggerIntervention]);
 
   useEffect(() => {
-    if (!faceDetectionRef.current) {
-      faceDetectionRef.current = new FaceDetectionSystem(
-        handleDetectionUpdate,
-        handleCameraReady
-      );
+    async function initializeDetection() {
+      setIsLoading(true);
+      setCameraError(null);
 
-      faceDetectionRef.current.start().catch(err => {
-        console.error('Erro ao iniciar detecção facial:', err);
-      });
+      if (!faceDetectionRef.current) {
+        try {
+          faceDetectionRef.current = new FaceDetectionSystem(
+            handleDetectionUpdate,
+            handleCameraReady
+          );
+
+          await faceDetectionRef.current.start();
+        } catch (err) {
+          console.error('Erro ao iniciar detecção facial:', err);
+          setCameraError(err.message);
+          setIsCameraReady(false);
+        } finally {
+          setIsLoading(false);
+        }
+      }
     }
+
+    initializeDetection();
 
     return () => {
       if (faceDetectionRef.current) {
@@ -168,14 +183,14 @@ function StudentView() {
   };
 
   // Funções para Quiz
-  const loadQuizzes = async () => {
+  const loadQuizzes = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/quizzes/${aulaId}`);
       setQuizzes(response.data);
     } catch (error) {
       console.error('Erro ao carregar quizzes:', error);
     }
-  };
+  }, [aulaId]);
 
   const startQuiz = (quiz) => {
     setCurrentQuiz(quiz);
@@ -222,20 +237,20 @@ function StudentView() {
   };
 
   // Função para carregar resumo personalizado
-  const loadPersonalizedSummary = async () => {
+  const loadPersonalizedSummary = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/resumos-personalizados/${studentId}/${aulaId}`);
       setPersonalizedSummary(response.data);
     } catch (error) {
       console.error('Erro ao carregar resumo personalizado:', error);
     }
-  };
+  }, [studentId, aulaId]);
 
   // Carregar quizzes e resumo ao montar componente
   useEffect(() => {
     loadQuizzes();
     loadPersonalizedSummary();
-  }, []);
+  }, [loadQuizzes, loadPersonalizedSummary]);
 
   return (
     <div className="student-view">
@@ -247,28 +262,70 @@ function StudentView() {
       <div className="side-panel glass-card">
         <div className="status-section">
           <h2>Monitoramento</h2>
-          <div className="status-item">
-            <span className="status-label">Câmera:</span>
-            <span className={`status-value ${isCameraReady ? 'active' : 'inactive'}`}>
-              {isCameraReady ? 'Ativa' : 'Inativa'}
-            </span>
-          </div>
-          <div className="status-item">
-            <span className="status-label">Atenção:</span>
-            <span className={`status-value ${detectionData.attentionScore > 0.5 ? 'good' : 'warning'}`}>
-              {detectionData.attentionScore > 0.5 ? 'Boa' : 'Baixa'}
-            </span>
-          </div>
-          <div className="status-item">
-            <span className="status-label">Fadiga:</span>
-            <span className="status-value">
-              {(detectionData.fatigueScore * 100).toFixed(0)}%
-            </span>
-          </div>
-          <div className="status-item">
-            <span className="status-label">Piscadas:</span>
-            <span className="status-value">{detectionData.blinkCount}</span>
-          </div>
+          {isLoading ? (
+            <div className="loading-message">
+              <p>Inicializando sistema de monitoramento...</p>
+              <div className="loading-spinner"></div>
+            </div>
+          ) : cameraError ? (
+            <div className="error-message">
+              <p>❌ Erro na câmera: {cameraError}</p>
+              <button onClick={() => window.location.reload()}>
+                Tentar Novamente
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="status-item">
+                <span className="status-label">Câmera:</span>
+                <span className={`status-value ${isCameraReady ? 'active' : 'inactive'}`}>
+                  {isCameraReady ? '✅ Ativa' : '⚠️ Aguardando permissão'}
+                </span>
+              </div>
+              
+              {isCameraReady && !detectionData.faceDetected && (
+                <div className="warning-message">
+                  ⚠️ Rosto não detectado. Por favor, posicione seu rosto na frente da câmera.
+                </div>
+              )}
+              
+              <div className="status-item">
+                <span className="status-label">Atenção:</span>
+                <span className={`status-value ${detectionData.attentionScore > 0.5 ? 'good' : 'warning'}`}>
+                  {detectionData.attentionScore > 0.5 ? 'Boa' : 'Baixa'}
+                </span>
+              </div>
+              
+              <div className="status-item">
+                <span className="status-label">Fadiga:</span>
+                <span className="status-value">
+                  {(detectionData.fatigueScore * 100).toFixed(0)}%
+                </span>
+              </div>
+              
+              <div className="status-item">
+                <span className="status-label">Piscadas:</span>
+                <span className="status-value">{detectionData.blinkCount}</span>
+              </div>
+              
+              {isCameraReady && detectionData.faceDetected && (
+                <div className="detection-status">
+                  <div className="status-item">
+                    <span className="status-label">Posição:</span>
+                    <span className={`status-value ${detectionData.gazeOnScreen ? 'good' : 'warning'}`}>
+                      {detectionData.gazeOnScreen ? '✅ Centralizada' : '⚠️ Desviada'}
+                    </span>
+                  </div>
+                  <div className="status-item">
+                    <span className="status-label">Estado:</span>
+                    <span className={`status-value ${detectionData.fatigueScore < 0.5 ? 'good' : 'warning'}`}>
+                      {detectionData.fatigueScore < 0.5 ? '✅ Atento' : '⚠️ Cansado'}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         <div className="materials-section">
